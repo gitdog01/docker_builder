@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/client"
 )
 
@@ -25,7 +26,27 @@ func dockerConnect() {
 	}
 }
 
+func dockerRun() {
+	fmt.Println("Docker Run")
+	cli, err := client.NewClientWithOpts(client.FromEnv)
+	if err != nil {
+		panic(err)
+	}
+
+	// cli.ContainerCreate()
+
+	cli.ContainerCreate(context.Background(), &container.Config{
+		Image: "alpine",
+		Cmd:   []string{"echo", "hello world"},
+	}, nil, nil, nil, "mono")
+
+
+
+}
+
 func main()  {
 	fmt.Println("Hello World")
+	
+	dockerRun();
 	dockerConnect();
 }
